@@ -1,4 +1,4 @@
-# SFND_Midterm_Project-Report
+# SFND_Midterm_Camera_Project-Report
 
 MP.1) Data Buffer Optimization :-
 The 'deque' container class from c++ library  was used to implement the ring buffer. The new images were added at the tail of the databuffer and once the databuffer is full , the old elements were removed first from the head part of the buffer ,  using the 'pop_front' method of the deque data structure, before pushing  a new image to the tail/end part of the  databuffer. 
