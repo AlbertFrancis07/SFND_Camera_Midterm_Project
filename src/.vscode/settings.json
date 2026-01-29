@@ -1,0 +1,7 @@
+{
+    "cfs.configureWorkspace": "No",
+    "files.associations": {
+        "iostream": "cpp",
+        "ostream": "cpp"
+    }
+}

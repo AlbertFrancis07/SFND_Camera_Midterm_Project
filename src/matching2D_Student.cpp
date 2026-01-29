@@ -13,7 +13,7 @@ void matchDescriptors(std::vector<cv::KeyPoint> &kPtsSource, std::vector<cv::Key
 
     if (matcherType.compare("MAT_BF") == 0)
     {
-        int normType = cv::NORM_HAMMING;//NORM_HAMMING ; NORM_L2
+        int normType = cv::NORM_L2;//NORM_HAMMING ; NORM_L2
         matcher = cv::BFMatcher::create(normType, crossCheck);
     }
     else if (matcherType.compare("MAT_FLANN") == 0)
@@ -89,10 +89,10 @@ void descKeypoints(vector<cv::KeyPoint> &keypoints, cv::Mat &img, cv::Mat &descr
 
 
     // perform feature description
-    double t = (double)cv::getTickCount();
+    //double t = (double)cv::getTickCount();
     extractor->compute(img, keypoints, descriptors);
-    t = ((double)cv::getTickCount() - t) / cv::getTickFrequency();
-    cout << descriptorType << " descriptor extraction in " << 1000 * t / 1.0 << " ms" << endl;
+    //t = ((double)cv::getTickCount() - t) / cv::getTickFrequency();
+    //cout << descriptorType << " descriptor extraction in " << 1000 * t / 1.0 << " ms" << endl;
 }
 
 // Detect keypoints in image using the traditional Shi-Thomasi detector
@@ -108,7 +108,7 @@ void detKeypointsShiTomasi(vector<cv::KeyPoint> &keypoints, cv::Mat &img, bool b
     double k = 0.04;
 
     // Apply corner detection
-    double t = (double)cv::getTickCount();
+    //double t = (double)cv::getTickCount();
     vector<cv::Point2f> corners;
     cv::goodFeaturesToTrack(img, corners, maxCorners, qualityLevel, minDistance, cv::Mat(), blockSize, false, k);
 
@@ -121,8 +121,8 @@ void detKeypointsShiTomasi(vector<cv::KeyPoint> &keypoints, cv::Mat &img, bool b
         newKeyPoint.size = blockSize;
         keypoints.push_back(newKeyPoint);
     }
-    t = ((double)cv::getTickCount() - t) / cv::getTickFrequency();
-    cout << "Shi-Tomasi detection with n=" << keypoints.size() << " keypoints in " << 1000 * t / 1.0 << " ms" << endl;
+    // t = ((double)cv::getTickCount() - t) / cv::getTickFrequency();
+    // cout << "Shi-Tomasi detection with n=" << keypoints.size() << " keypoints in " << 1000 * t / 1.0 << " ms" << endl;
 
     // visualize results
     if (bVis)
@@ -151,7 +151,7 @@ void detKeypointsHarris(vector<cv::KeyPoint> &keypoints, cv::Mat &img, bool bVis
     // Detect Harris corners and normalize output
     cv::Mat dst, dst_norm, dst_norm_scaled;
     dst = cv::Mat::zeros(img.size(), CV_32FC1);
-    double t = (double)cv::getTickCount();
+    //double t = (double)cv::getTickCount();
     cv::cornerHarris(img, dst, blockSize, apertureSize, k, cv::BORDER_DEFAULT);
     cv::normalize(dst, dst_norm, 0, 255, cv::NORM_MINMAX, CV_32FC1, cv::Mat());
     cv::convertScaleAbs(dst_norm, dst_norm_scaled);
@@ -193,8 +193,8 @@ void detKeypointsHarris(vector<cv::KeyPoint> &keypoints, cv::Mat &img, bool bVis
 
         }
     }
-    t = ((double)cv::getTickCount() - t) / cv::getTickFrequency();
-    cout << "HARRIS detection with n=" << keypoints.size() << " keypoints in " << 1000 * t / 1.0 << " ms" << endl;
+   // t = ((double)cv::getTickCount() - t) / cv::getTickFrequency();
+    //cout << "HARRIS detection with n=" << keypoints.size() << " keypoints in " << 1000 * t / 1.0 << " ms" << endl;
 
     if(bVis)
     {
@@ -220,10 +220,10 @@ void detKeypointsModern(std::vector<cv::KeyPoint> &keypoints, cv::Mat &img, std:
         cv::cvtColor(img, imgGray, cv::COLOR_BGR2GRAY);                                                            // perform non-maxima suppression on keypoints
         cv::FastFeatureDetector::DetectorType type = cv::FastFeatureDetector::TYPE_9_16; // TYPE_9_16, TYPE_7_12, TYPE_5_8
         
-        double t = (double)cv::getTickCount();
+        //double t = (double)cv::getTickCount();
         cv::FAST(imgGray,keypoints,threshold,bNMS, type);
-        t = ((double)cv::getTickCount() - t) / cv::getTickFrequency();
-        cout << "FAST detection with n=" << keypoints.size() << " keypoints in " << 1000 * t / 1.0 << " ms" << endl;
+       // t = ((double)cv::getTickCount() - t) / cv::getTickFrequency();
+        //cout << "FAST detection with n=" << keypoints.size() << " keypoints in " << 1000 * t / 1.0 << " ms" << endl;
 
         if(bVis)
         {
@@ -241,11 +241,11 @@ void detKeypointsModern(std::vector<cv::KeyPoint> &keypoints, cv::Mat &img, std:
     {
         cv::Mat imgGray;
         cv::cvtColor(img, imgGray, cv::COLOR_BGR2GRAY);  
-        double t = (double)cv::getTickCount();      
+       // double t = (double)cv::getTickCount();      
         detector = cv::BRISK::create();
         detector->detect(imgGray,keypoints);
-        t = ((double)cv::getTickCount() - t) / cv::getTickFrequency();
-        cout << "BRISK detection with n=" << keypoints.size() << " keypoints in " << 1000 * t / 1.0 << " ms" << endl;
+        //t = ((double)cv::getTickCount() - t) / cv::getTickFrequency();
+       // cout << "BRISK detection with n=" << keypoints.size() << " keypoints in " << 1000 * t / 1.0 << " ms" << endl;
 
         if(bVis)
         {
@@ -263,11 +263,11 @@ void detKeypointsModern(std::vector<cv::KeyPoint> &keypoints, cv::Mat &img, std:
     {
         cv::Mat imgGray;
         cv::cvtColor(img, imgGray, cv::COLOR_BGR2GRAY);      
-        double t = (double)cv::getTickCount();  
+       // double t = (double)cv::getTickCount();  
         detector = cv::SIFT::create();
         detector->detect(imgGray,keypoints);
-        t = ((double)cv::getTickCount() - t) / cv::getTickFrequency();
-        cout << "SIFT detection with n=" << keypoints.size() << " keypoints in " << 1000 * t / 1.0 << " ms" << endl;
+       // t = ((double)cv::getTickCount() - t) / cv::getTickFrequency();
+       // cout << "SIFT detection with n=" << keypoints.size() << " keypoints in " << 1000 * t / 1.0 << " ms" << endl;
 
         if(bVis)
         {
@@ -285,11 +285,11 @@ void detKeypointsModern(std::vector<cv::KeyPoint> &keypoints, cv::Mat &img, std:
     {
         cv::Mat imgGray;
         cv::cvtColor(img, imgGray, cv::COLOR_BGR2GRAY);   
-        double t = (double)cv::getTickCount();     
+       // double t = (double)cv::getTickCount();     
         detector = cv::ORB::create();
         detector->detect(imgGray,keypoints);
-        t = ((double)cv::getTickCount() - t) / cv::getTickFrequency();
-        cout << "ORB detection with n=" << keypoints.size() << " keypoints in " << 1000 * t / 1.0 << " ms" << endl;
+       // t = ((double)cv::getTickCount() - t) / cv::getTickFrequency();
+       // cout << "ORB detection with n=" << keypoints.size() << " keypoints in " << 1000 * t / 1.0 << " ms" << endl;
 
         if(bVis)
         {
@@ -306,11 +306,11 @@ void detKeypointsModern(std::vector<cv::KeyPoint> &keypoints, cv::Mat &img, std:
     {
         cv::Mat imgGray;
         cv::cvtColor(img, imgGray, cv::COLOR_BGR2GRAY);     
-        double t = (double)cv::getTickCount();   
+       // double t = (double)cv::getTickCount();   
         detector = cv::AKAZE::create();
         detector->detect(imgGray,keypoints);
-        t = ((double)cv::getTickCount() - t) / cv::getTickFrequency();
-        cout << "AKAZE detection with n=" << keypoints.size() << " keypoints in " << 1000 * t / 1.0 << " ms" << endl;
+        //t = ((double)cv::getTickCount() - t) / cv::getTickFrequency();
+        //cout << "AKAZE detection with n=" << keypoints.size() << " keypoints in " << 1000 * t / 1.0 << " ms" << endl;
 
         if(bVis)
         {
