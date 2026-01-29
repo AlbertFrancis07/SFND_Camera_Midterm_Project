@@ -22,7 +22,7 @@ MP.8) For every successive images, the keypoints that were matched(from MP.6) we
 
 MP.9)To measure the execution time of Keypoint Detection and Keypoint Descriptor Extraction, the OpenCV timing functions were used. The system tick count was recorded before starting the execution of the Keypoint Detection  and then immediately after Keypoint Descriptor Extraction completion. The elapsed time was then computed by taking the difference between the two tick counts and normalizing it using the tick frequency provided by OpenCV.
 
-The Performance results for all the Keypoint Detector - Keypoint Descriptor combo were then recorded inside an excel sheet which is attached along with this project. From the results the 3 best Detector-Descriptor pairs are listed below.
+The Performance results for all the Keypoint Detector - Keypoint Descriptor combo on all the 10 images were then recorded inside an excel sheet which is attached along with this project. From the results the 3 best Detector-Descriptor pairs are listed below.
 1) FAST / ORB
 2) FAST / BRIEF
 3) FAST / SIFT
